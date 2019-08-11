@@ -27,7 +27,7 @@ def read_excel(file_path):
     #                     colspan.update({(row, col): (item[0], item[2])})
     # 读取每行数据
 
-    write_excel = xlsxwriter.Workbook("/Users/turtle/Desktop/222.xlsx")
+    write_excel = xlsxwriter.Workbook("/Users/turtle/Desktop/2.xlsx")
     write_excel_sheet = write_excel.add_worksheet()
     count = 1
     last = False
@@ -77,4 +77,4 @@ if __name__ == '__main__':
     # write_excel_sheet.merge_range(1, 0, 2, 0, 12)
     # write_excel.close()
 
-    read_excel("/Users/turtle/Desktop/111.xls")
+    read_excel("/Users/turtle/Desktop/1.xls")

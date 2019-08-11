@@ -101,6 +101,38 @@ def process_excel(path_in, path_out):
     write_excel.close()
 
 
+def process_excel_2(path_in, path_out):
+    data = xlrd.open_workbook(path_in)
+    sheet_names = data.sheet_names()
+    sheet = sheet_names[0]
+    table = data.sheet_by_name(sheet)
+    # 获取总行数
+    nrows = table.nrows
+    # 获取总列数
+    ncols = table.ncols
+
+    have_value = list()
+    old = -1
+    for i in range(nrows):
+        # print(table.cell_value(i, 0), table.cell_value(i, 1),table.cell_value(i, 2), table.cell_value(i, 3))
+        if table.cell_value(i, 0) == old:
+            continue
+        have_value.append(i)
+        old = table.cell_value(i, 0)
+
+    write_excel = xlsxwriter.Workbook(path_out)
+    write_excel_sheet = write_excel.add_worksheet()
+    for i in range(len(have_value) - 1):
+        index = have_value[i]
+        while index < have_value[i+1]:
+            write_excel_sheet.write(index, 0, i + 1)
+            index += 1
+        if have_value[i+1] - have_value[i] > 1:
+            write_excel_sheet.merge_range(have_value[i], 0, have_value[i + 1] - 1, 0, i + 1)
+
+    write_excel.close()
+
+
 if __name__ == '__main__':
 
     # write_excel = xlsxwriter.Workbook("/Users/turtle/Desktop/222.xlsx")
@@ -112,4 +144,4 @@ if __name__ == '__main__':
     # write_excel_sheet.merge_range(1, 0, 2, 0, 12)
     # write_excel.close()
 
-    process_excel("/Users/turtle/Desktop/1.xlsx", "/Users/turtle/Desktop/2.xlsx")
+    process_excel_2("/Users/turtle/Desktop/1.xlsx", "/Users/turtle/Desktop/2.xlsx")
